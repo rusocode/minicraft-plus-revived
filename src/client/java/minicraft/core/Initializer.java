@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Initializer extends Game {
+
 	private Initializer() {}
 
 	/**

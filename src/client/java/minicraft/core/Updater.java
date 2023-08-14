@@ -20,7 +20,9 @@ import minicraft.util.Logging;
 import java.awt.GraphicsDevice;
 
 public class Updater extends Game {
-	private Updater() {}
+
+	private Updater() {
+	}
 
 	// TIME AND TICKS
 
@@ -31,8 +33,8 @@ public class Updater extends Game {
 	public static int tickCount = 0; // The number of ticks since the beginning of the game day.
 	static int time = 0; // Facilites time of day / sunlight.
 	public static final int dayLength = 64800; // This value determines how long one game day is.
-	public static final int sleepEndTime = dayLength/8; // This value determines when the player "wakes up" in the morning.
-	public static final int sleepStartTime = dayLength/2+dayLength/8; // This value determines when the player allowed to sleep.
+	public static final int sleepEndTime = dayLength / 8; // This value determines when the player "wakes up" in the morning.
+	public static final int sleepStartTime = dayLength / 2 + dayLength / 8; // This value determines when the player allowed to sleep.
 	//public static int noon = 32400; // This value determines when the sky switches from getting lighter to getting darker.
 
 	public static int gameTime = 0; // This stores the total time (number of ticks) you've been playing your
@@ -56,10 +58,10 @@ public class Updater extends Game {
 	public static int screenshot = 0; // Counter for screenshot queries.
 
 	public enum Time {
-		Morning (0),
-		Day (dayLength/4),
-		Evening (dayLength/2),
-		Night (dayLength/4*3);
+		Morning(0),
+		Day(dayLength / 4),
+		Evening(dayLength / 2),
+		Night(dayLength / 4 * 3);
 
 		public int tickTime;
 
@@ -92,10 +94,10 @@ public class Updater extends Game {
 	public static void tick() {
 
 		// Quick Level change: move the player for -1, or 1 levels
-		if (isMode("minicraft.settings.mode.creative") && input.getKey("SHIFT-S").clicked ) {
+		if (isMode("minicraft.settings.mode.creative") && input.getKey("SHIFT-S").clicked) {
 			Game.setDisplay(new LevelTransitionDisplay(-1));
 
-		} else if (isMode("minicraft.settings.mode.creative") && input.getKey("SHIFT-W").clicked ){
+		} else if (isMode("minicraft.settings.mode.creative") && input.getKey("SHIFT-W").clicked) {
 			Game.setDisplay(new LevelTransitionDisplay(1));
 		}
 
@@ -148,7 +150,7 @@ public class Updater extends Game {
 		}
 
 		// Auto-save tick; marks when to do autosave.
-		if(!paused)
+		if (!paused)
 			asTick++;
 		if (asTick > astime) {
 			if ((boolean) Settings.get("autosave") && !gameOver && player.health > 0) {
@@ -160,7 +162,7 @@ public class Updater extends Game {
 		}
 
 		// Increment tickCount if the game is not paused
-		if (!paused) setTime(tickCount+1);
+		if (!paused) setTime(tickCount + 1);
 
 		// SCORE MODE ONLY
 
@@ -236,7 +238,7 @@ public class Updater extends Game {
 					if (input.getKey("F3-T-3").clicked) changeTimeOfDay(Time.Evening);
 					if (input.getKey("F3-T-4").clicked) changeTimeOfDay(Time.Night);
 
-					String prevMode = (String)Settings.get("mode");
+					String prevMode = (String) Settings.get("mode");
 					if (input.getKey("F3-F4-2").clicked) {
 						Settings.set("mode", "minicraft.settings.mode.creative");
 						Logging.WORLDNAMED.trace("Game mode changed from {} into {}.", prevMode, "minicraft.settings.mode.creative");
@@ -261,12 +263,12 @@ public class Updater extends Game {
 					}
 					if (input.getKey("F3-S-equals").clicked) {
 						if (gamespeed < 1) gamespeed *= 2;
-						else if (normSpeed*gamespeed < 2000) gamespeed++;
+						else if (normSpeed * gamespeed < 2000) gamespeed++;
 						Logging.WORLDNAMED.trace("Tick speed increased from {} into {}.", prevSpeed, gamespeed);
 					}
 					if (input.getKey("F3-S-minus").clicked) {
 						if (gamespeed > 1) gamespeed--;
-						else if (normSpeed*gamespeed > 5) gamespeed /= 2;
+						else if (normSpeed * gamespeed > 5) gamespeed /= 2;
 						Logging.WORLDNAMED.trace("Tick speed decreased from {} into {}.", prevSpeed, gamespeed);
 					}
 
@@ -278,10 +280,10 @@ public class Updater extends Game {
 					if (input.getKey("F3-M-minus").clicked && player.moveSpeed > 1) player.moveSpeed--; // -= 0.5D;
 
 					if (input.getKey("F3-u").clicked) {
-						levels[currentLevel].setTile(player.x>>4, player.y>>4, Tiles.get("Stairs Up"));
+						levels[currentLevel].setTile(player.x >> 4, player.y >> 4, Tiles.get("Stairs Up"));
 					}
 					if (input.getKey("F3-d").clicked) {
-						levels[currentLevel].setTile(player.x>>4, player.y>>4, Tiles.get("Stairs Down"));
+						levels[currentLevel].setTile(player.x >> 4, player.y >> 4, Tiles.get("Stairs Down"));
 					}
 				} // End debug only cond.
 			} // End "menu-null" conditional
@@ -308,6 +310,7 @@ public class Updater extends Game {
 	public static void changeTimeOfDay(Time t) {
 		setTime(t.tickTime);
 	}
+
 	// This one works too.
 	public static void changeTimeOfDay(int t) {
 		Time[] times = Time.values();
@@ -322,10 +325,13 @@ public class Updater extends Game {
 		return times[time];
 	}
 
-	/** This adds a notification to all player games. */
+	/**
+	 * This adds a notification to all player games.
+	 */
 	public static void notifyAll(String msg) {
 		notifyAll(msg, 0);
 	}
+
 	public static void notifyAll(String msg, int notetick) {
 		msg = Localization.getLocalized(msg);
 		notifications.add(msg);
